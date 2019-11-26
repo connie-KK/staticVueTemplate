@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+  <link rel="stylesheet" href="./style.css">
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
+</head>
+
+<body>
+  <div id="enterinfo" v-cloak>
+    <div class="header">{{enter.name}}</div>
+    <div class="content">
+      <div class="img-box">
+        <mt-swipe :auto="0">
+          <mt-swipe-item v-for="item in imglist" :key="item.id">
+            <img class="innerimg" :src="item.url" />
+          </mt-swipe-item>
+        </mt-swipe>
+      </div>
+      <div class="site-info" v-for="(item,index) in siteInfo">
+        <p class="label">{{item.label}}</p>
+        <p class="info">{{item.value}}</p>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+  (function () {
+    var setHtmlFontSize = function () {
+      document.documentElement.style.fontSize = (document.body.clientWidth / 750) * 100 + 'px'
+    }
+    setHtmlFontSize()
+    window.onresize = function () {
+      setHtmlFontSize()
+    }
+  })()
+</script>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/mint-ui/lib/index.js"></script>
+<script>
+  var vm = new Vue({
+    el: '#enterinfo',
+    name: '',
+    data: function () {
+      return {
+        id: '',
+        enter: {
+          name: '大横河站'
+        },
+        imglist: [
+          {
+            id: 1,
+            url: "image/site1.png"
+          },
+          {
+            id: 2,
+            url: "image/site2.png"
+          },
+          {
+            id: 3,
+            url: "image/site3.png"
+          },
+          {
+            id: 4,
+            url: "image/site4.png"
+          },
+        ],
+        selected: "1",
+        selected: "1",
+        siteInfo:[]
+      }
+    },
+    created: function () {
+      this.id = this.getQueryString('id')
+      document.title = this.enter.name
+    },
+    methods: {
+      getQueryString: function (name) {
+        const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i")
+        const urlObj = window.location
+        var r = urlObj.href.indexOf('#') > -1 ? urlObj.hash.split("?")[1].match(reg) : urlObj.search.substr(1)
+          .match(reg)
+        if (r != null) {
+          return unescape(r[2])
+        } else {
+          return null
+        }
+      }
+    }
+  })
+</script>
+
+</html>
